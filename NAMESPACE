@@ -1,0 +1,8 @@
+useDynLib("sglasso")
+
+import(Matrix)
+exportPattern("^[[:alpha:]]+")
+
+S3method(print, sglasso)
+S3method(summary, sglasso)
+S3method(plot, sglasso)

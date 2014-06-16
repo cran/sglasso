@@ -1,7 +1,8 @@
-44ff997dd39db3ff0e986332682b996f *DESCRIPTION
+5d83d834ee0bb2a4542015e774a37e34 *ChangeLog
+d3b893cadf219e5371c9d7c9be982045 *DESCRIPTION
 5f7d3fd9eff3a0af84df896a548139f8 *NAMESPACE
 fbd8697d305d341b77c3e4a58dfe1c4f *R/Kh.R
-9b3aa84ef1799c0e8252e5871e4835d5 *R/loglik.R
+af4246af84df7e8b6b25bab1b0334bee *R/loglik.R
 9295370d0275f1ddbb11faf03e588847 *R/make_action.R
 4a314995917ba4de0bfa9b1590516cf1 *R/make_sglasso.R
 397eb3eb0e50127bb74531f17250d366 *R/mask2Te.R
@@ -17,7 +18,7 @@ a66256c73eb0499ef496e8c3fc25a7ae *man/Kh.Rd
 b7ba16094f46e943e8f61d0db4cfb319 *man/dglars-internal.Rd
 432545d6584015602a87ce99c7492775 *man/loglik.Rd
 b1d18307e4852d585d580145ac9527d0 *man/plot.sglasso.Rd
-b02a5b5687428223c83dc95bf5f4bbf8 *man/sglasso-package.Rd
+ecb8301b378c0eaff506e6acd56e6c55 *man/sglasso-package.Rd
 7fd0f5879b52c6bd2876305d41b3a64e *man/sglasso.Rd
 61775a293a875d59317862d78db8aa4e *man/summary.sglasso.Rd
 5245b60d3b50910ac71194b3ca901aa4 *src/Makevars

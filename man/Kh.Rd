@@ -1,6 +1,6 @@
 \name{Kh}
 \alias{Kh}
-\title{Extract Sparse Structured Precision Matrix}
+\title{Extract Sparse Structured Precision Matrices}
 \description{
 Function \code{Kh} computes the sequence of sparse structured precision matrices estimated by the \code{sglasso} function.
 }
@@ -21,7 +21,7 @@ Maintainer: Luigi Augugliaro \email{luigi.augugliaro@unipa.it}}
 N <- 100
 p <- 5
 X <- matrix(rnorm(N * p), N, p)
-S <- crossprod(X)/N
+S <- crossprod(X) / N
 mask <- outer(1:p, 1:p, function(i, j) 0.5^abs(i-j))
 out.sglasso_path <- sglasso(S, mask, nrho = 5, tol = 1.0e-13)
 out.sglasso_path
@@ -31,4 +31,3 @@ out.sglasso_single <- sglasso(S, mask, nrho = 1, min_rho = rho, tol = 1.0e-13, a
 Kh(out.sglasso_single)
 }
 \keyword{models}
-\keyword{graph}

@@ -1,2 +1,10 @@
-2014-06-16 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.0.1
-	* fixed a but in loglik function
+2014-09-09 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.1
+	* klcv function is included in the package
+	
+2014-09-04 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.1
+	* fglasso and fglasso_model2mask are included in the package
+	* sglasso: string "zero" was changed to "."
+	* fixed a bug in loglik function
+	
+2014-06-16 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.0-1
+	* fixed a bug in loglik function

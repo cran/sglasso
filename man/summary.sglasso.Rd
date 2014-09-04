@@ -16,7 +16,7 @@
   \item{\dots}{additional print arguments.}
 }
 \details{
-	\code{summary.sglasso} gives us informations about the sequence of models estimated by the sglasso estimator. To select the best model, summary method uses a measure of Goodness-of-Fit (GoF) defined as follows: \deqn{-2\ell(\hat\psi) + k \times df,}{-2 l(hat{\psi}) + k df,} where \eqn{\ell(\hat\psi)}{l(hat{\psi})} is the log-likelihood of the estimated weigthed l1-penalized \emph{RCON(V, E)} model, \eqn{df} is the number of nonzero estimated parameters and \eqn{k} is a non-negative integer used to weight the complexity part in the measure of goodness-of-fit. By default the summary method computed the BIC criterion to select the best model (\code{k = "bic"}). The AIC criterion can be easily computed setting \code{k = "aic"}. The user can also define other measures of goodness-of-fit specifying \code{k} as any non-negative integer.
+	\code{summary.sglasso} gives us informations about the sequence of models estimated by the sglasso estimator. To select the best model, summary method uses a measure of Goodness-of-Fit (GoF) defined as follows: \deqn{-2\ell(\hat\psi) + k \times df,}{-2 l(hat{\psi}) + k df,} where \eqn{\ell(\hat\psi)}{l(hat{\psi})} is the log-likelihood of the estimated weighted l1-penalized \emph{RCON(V, E)} model, \eqn{df} is the number of nonzero estimated parameters and \eqn{k} is a non-negative integer used to weight the complexity part in the measure of goodness-of-fit. By default the summary method computed the BIC criterion to select the best model (\code{k = "bic"}). The AIC criterion can be easily computed setting \code{k = "aic"}. The user can also define other measures of goodness-of-fit specifying \code{k} as any non-negative integer.
 	
 	The output of the summary method is divided in two sections. The first section shows the call that produced the argument \code{object} followed by a \code{data.frame}. The column named \code{Sequence} gives us information on how is changed the set of estimated non-zero parameters along the path. The column named \code{rho} shows the sequence of the \eqn{\rho} values used to compute the solution curve, while the column \code{log-lik} shows the corresponding value of the log-likelihood function. The remaining columns show the number of estimated non-zero parameters. Finally, the second section shows the estimated parameters of the best model identified by the used GoF criterion. Like for the \code{print.dglars} method, informations about the the algorithm and the corresponding convergence are also provided.
 }
@@ -32,7 +32,7 @@ Maintainer: Luigi Augugliaro \email{luigi.augugliaro@unipa.it}}
 N <- 100
 p <- 5
 X <- matrix(rnorm(N * p), N, p)
-S <- crossprod(X)/N
+S <- crossprod(X) / N
 mask <- outer(1:p, 1:p, function(i,j) 0.5^abs(i-j))
 mask[1,5] <- mask[1,4] <- mask[2,5] <- NA
 mask[5,1] <- mask[4,1] <- mask[5,2] <- NA
@@ -43,4 +43,3 @@ out.sglasso <- sglasso(S, mask, nrho = 1, min_rho = rho, tol = 1.0e-13, algorith
 summary(out.sglasso, size = N)
 }
 \keyword{models}
-\keyword{graph}

@@ -11,22 +11,22 @@ sglasso(S, mask, w = NULL, min_rho = 1.0e-02, nrho = 50, nstep = 1.0e+05,
 }
 \arguments{
 	\item{S}{the empirical variance/covariance matrix;}
-	\item{mask}{an object of class "matrix" used to define the known structure of concentration matrix. See the example bellow for more details;}
-	\item{w}{a vector specifying the weights used to compute the weighted l1-norm of the parameters of the \emph{RCON(V, E)} model. See below for more details;}
+	\item{mask}{a symmetric matrix used to define the structure of the concentration matrix. See the example bellow for more details;}
+	\item{w}{a vector specifying the weights used to compute the weighted l1-norm of the parameters of the \emph{RCON(V, E)} model;}
 	\item{min_rho}{last value of the sequence of tuning parameters used to compute the sglasso solution path. If the argument \code{nrho = 1}, then \code{min_rho} is the value used to compute the sglasso estimate. Default value is 1.0e-02;}
 	\item{nrho}{number of tuning parameters. Default is 50;}
 	\item{nstep}{nonnegative integer used to specify the maximun number of iterations of the two cyclic coordinate algorithms. Default is 1.0e+05;}
-	\item{algorithm}{character by means of to specify the algorithm used to fit the model, i.e. a cyclic coordinate descente (\code{ccd}) algorithm or a cyclic coordinate minimization (\code{ccm}) algorithm. Default is \code{ccd};}
+	\item{algorithm}{character by means of to specify the algorithm used to fit the model, i.e., a cyclic coordinate descente (\code{ccd}) algorithm or a cyclic coordinate minimization (\code{ccm}) algorithm. Default is \code{ccd};}
 	\item{tol}{value used for convergence. Default value is 1.0e-05.}
 }
 \details{
 	The \emph{RCON(V, E)} model (Hojsgaard et al., 2008) is a kind of restriction of the Gaussian Graphical Model defined using a coloured graph to specify a set of equality constraints on the entries of the concentration matrix. Roughly speaking, a coloured graph implies a partition of the vertex set into \eqn{R} disjoint subsets, called vertex colour classes, and a partition of the edge set into \eqn{S} disjoint subsets, called edge colour classes. At each vertex/edge colour class is associated a specific colour. If we denote by \eqn{K = (k_{ij})} the concentration matrix, i.e. the inverse of the variance/covariance matrix \eqn{\Sigma}, the coloured graph implies the following equality constraints:\enumerate{
 	\item \eqn{k_{ii} = \eta_n} for any index \eqn{i} belonging to the \eqn{n}th vertex colour class;
 	\item \eqn{k_{ij} = \theta_m} for any pair \eqn{(i,j)} belonging to the \eqn{m}th edge colour class.
-	} Denoted with \eqn{\psi = (\eta^T,\theta^T)^T} the \eqn{(R+S)}-dimensional parameter vector, the previous constraints imply that the concentration matrix can be defined as \deqn{K(\psi) = \sum_{n=1}^R\eta_nD_n + \sum_{m=1}^S\theta_mT_m,}{K(\psi) = sum_{n=1}^R eta_n D_n + sum_{m=1}^S theta_m T_m,} where \eqn{D_n} is a diagonal matrix with entries \eqn{D^n_{ii} = 1} if the index \eqn{i} belongs to the \eqn{n}th vertex colour class and zero otherwise. In the same way, \eqn{T_m} is a symmetrix matrix with entries \eqn{T^m_{ij} = 1} if the pair \eqn{(i,j)} belongs to the \eqn{m}th edge colour class. Using the previous specification of the concentration matrix, the structured graphical lasso (sglasso) estimator (Augugliaro et al., 2014) is defined as \deqn{\hat\psi = \arg\max_{\psi} \log det K(\psi) - tr\{Sk(\psi)\} - \rho\sum_{m=1}^Sw_m|\theta_m|,}{hat{\psi} = argmax_{\psi} log det K(\psi) - tr{Sk(\psi)} - \rho \sum_{m=1}^S w_m |\theta_m|,} where \eqn{S} is the empirical variance/covariance matrix, \eqn{\rho} is the tuning parameter used to control the ammount of shrinkage and \eqn{w_m} are weights used to define the weighted \eqn{\ell_1}-norm. In order to stabilize the variance of the elements of the score vector at the starting point, we let \eqn{w_m=tr(T_mST_mS)} (default value of the argument \code{w} of the \code{sglasso} function).
+	} Denoted with \eqn{\psi = (\eta',\theta')'} the \eqn{(R+S)}-dimensional parameter vector, the previous constraints imply that the concentration matrix can be defined as \deqn{K(\psi) = \sum_{n=1}^R\eta_nD_n + \sum_{m=1}^S\theta_mT_m,}{K(\psi) = sum_{n=1}^R eta_n D_n + sum_{m=1}^S theta_m T_m,} where \eqn{D_n} is a diagonal matrix with entries \eqn{D^n_{ii} = 1} if the index \eqn{i} belongs to the \eqn{n}th vertex colour class and zero otherwise. In the same way, \eqn{T_m} is a symmetrix matrix with entries \eqn{T^m_{ij} = 1} if the pair \eqn{(i,j)} belongs to the \eqn{m}th edge colour class. Using the previous specification of the concentration matrix, the structured graphical lasso (sglasso) estimator (Abbruzzo et al., 2014) is defined as \deqn{\hat\psi = \arg\max_{\psi} \log det K(\psi) - tr\{Sk(\psi)\} - \rho\sum_{m=1}^Sw_m|\theta_m|,}{hat{\psi} = argmax_{\psi} log det K(\psi) - tr{Sk(\psi)} - \rho \sum_{m=1}^S w_m |\theta_m|,} where \eqn{S} is the empirical variance/covariance matrix, \eqn{\rho} is the tuning parameter used to control the ammount of shrinkage and \eqn{w_m} are weights used to define the weighted \eqn{\ell_1}-norm. In order to stabilize the variance of the elements of the score vector at the starting point, we let \eqn{w_m=tr(T_mST_mS)} (default value of the argument \code{w} in the \code{sglasso} function).
 }
 \value{
-\code{sglasso} returns an obejct with S3 class \code{"sglasso"}, i.e. a named list containing the following components:
+\code{sglasso} returns an obejct with S3 class \code{"sglasso"}, i.e., a named list containing the following components:
 	\item{call}{the call that produced this object;}
 	\item{nv}{number of vertex colour classes;}
 	\item{ne}{number of edge colour classes;}
@@ -47,9 +47,10 @@ sglasso(S, mask, w = NULL, min_rho = 1.0e-02, nrho = 50, nstep = 1.0e+05,
 \author{Luigi Augugliaro\cr 
 Maintainer: Luigi Augugliaro \email{luigi.augugliaro@unipa.it}}
 \references{
-Augugliaro, L., Abbruzzo, A., Mineo, A.M. and Wit, E.C. (2014) 
-\emph{The structured graphical lasso estimator}. Technical Report.
+Abbruzzo, A., Augugliaro, L., Mineo, A.M. and Wit, E.C. (2014) 
+\emph{Cyclic coordinate for penalized Gaussian Graphical Models with symmetry restrictions}. In Proceeding of COMPSTAT 2014 - 21th International Conference on Computational Statistics, Geneva, August 19-24, 2014.
 \cr\cr
+
 Hojsgaard, S. and Lauritzen, S.L. (2008) 
 \emph{Graphical gaussian models with edge and vertex symmetries}. J. Roy. Statist. Soc. Ser. B., Vol. 70(5), 1005--1027.
 }
@@ -67,11 +68,11 @@ The function \code{\link{Kh}} extracts the estimated sparse structured concentra
 ## related to the kind of mask. If mask is a numeric matrix
 ## NA is used to identify the structural zero. If mask is a
 ## character matrix then the structural zeros are specified
-## using NA or the string "zero".
+## using NA or ".".
 N <- 100
 p <- 5
 X <- matrix(rnorm(N * p), N, p)
-S <- crossprod(X)/N
+S <- crossprod(X) / N
 mask <- outer(1:p, 1:p, function(i,j) 0.5^abs(i-j))
 mask[1,5] <- mask[1,4] <- mask[2,5] <- NA
 mask[5,1] <- mask[4,1] <- mask[5,2] <- NA

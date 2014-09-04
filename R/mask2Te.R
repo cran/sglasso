@@ -1,6 +1,6 @@
 mask2Te <- function(mask){
 	e <- mask[upper.tri(mask, diag = FALSE)]
-	ge <- setdiff(unique(e), "zero")
+	ge <- setdiff(unique(e), ".")
 	ne <- length(ge)
 	Te_list <- vector(mode = "list", length = ne)
 	Te_ptr_list <- vector(mode = "list", length = ne)

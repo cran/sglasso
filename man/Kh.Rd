@@ -9,7 +9,7 @@ Kh(object, rho)
 }
 \arguments{
 	\item{object}{fitted \code{sglasso} object;}
-	\item{rho}{a vector specifying a subset of the values of the tuning parameter used in \code{sglasso} to compute the solution path. By default, the entire sequence of estimated sparse structured precision matrices is returned.}
+	\item{rho}{a subset of the values of the tuning parameter used in \code{sglasso} to compute the solution path. By default, the entire sequence of estimated sparse structured precision matrices is returned.}
 }
 \value{
 \code{Kh} returns a named list containing the sequence of estimated sparse structured precision matrices.

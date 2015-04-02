@@ -8,6 +8,7 @@ fglasso_model2mask <- function(fglasso.model, tp, p){
 	U <- outer(1:p, 1:p, "<")
 	L <- t(U)
 	n_u_lbl <- paste(n_lbl, "_", lbl[U], sep = "")
+	n_l_lbl <- paste(n_lbl, "_", lbl[L], sep = "")
 	for(rb in 0:(tp - 1)){
 		k <- rb * p + 1:p
 		diag(mask[k, k]) <- switch(fglasso.model[1, 1],
@@ -41,7 +42,12 @@ fglasso_model2mask <- function(fglasso.model, tp, p){
 										t = paste(n_lbl, "-t", rb + 1, "-h", lag, sep = ""),
 										ut = paste(n_u_lbl, "-t", rb + 1, "-h", lag, sep = ""),
 										. = ".")
-				mask[s, e][L] <- mask[s, e][U]
+				mask[s, e][L] <- switch(fglasso.model[lag + 1, 2],
+										c = paste(n_lbl, "-h", lag, sep = ""),
+										u = paste(n_l_lbl, "-h", lag, sep = ""),
+										t = paste(n_lbl, "-t", rb + 1, "-h", lag, sep = ""),
+										ut = paste(n_l_lbl, "-t", rb + 1, "-h", lag, sep = ""),
+										. = ".")
 			}
 		}
 	}

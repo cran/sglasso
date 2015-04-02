@@ -1,3 +1,12 @@
+2015-04-02 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.1-1
+	* klcv returs an object with S3 class 'klcv'
+	* implemented print method for class 'klcv	'
+
+2015-03-30 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.1-1
+	* fixed a bug in fglasso_model2mask function: 
+	  now off-diagonal submatrices are non symmetric if n = "u" (or "ut") for lag >= 1
+	* weights are defined as number of undirected edges in each edge-colour class
+	
 2014-09-09 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.1
 	* klcv function is included in the package
 	

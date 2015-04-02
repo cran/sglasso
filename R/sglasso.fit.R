@@ -16,11 +16,10 @@ sglasso.fit <- function(Sv, mask, w, nrho, min_rho, nstep, algorithm, tol){
 	nTv <- Tv_ptr[nv + 1] - 1
 	nTe <- Te_scn[ne + 1] - 1
 	nTe_ptr <- Te_ptr_scn[ne + 1] - 1
-	if(is.null(w)) w <- double(ne)
+	if(is.null(w)) w <- out_mask2Te$w
 	else{
 		if(any(w <= 0)) stop("weights must be non-negative values")
 		if(length(w) != ne) stop("length of 'w' is not equal to 'ne'")
-		storage.mode(w) <- "double"
 	}
 	storage.mode(nSv) <- "integer"
 	storage.mode(Sv) <- "double"
@@ -45,6 +44,7 @@ sglasso.fit <- function(Sv, mask, w, nrho, min_rho, nstep, algorithm, tol){
 	storage.mode(grd) <- "double"
 	th <- matrix(0, nv + ne, nrho, dimnames = list(c(nmv, nme)))
 	storage.mode(th) <- "double"
+	storage.mode(w) <- "double"
 	df <- integer(nrho)
 	n <- integer(1)
 	conv <- integer(1)

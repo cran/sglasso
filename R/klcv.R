@@ -7,6 +7,7 @@ klcv <- function(object, X, scale = 1){
 	stop("scale is not a vector")
 	if(length(scale) != 1)
 	stop("scale is not a scalar")
+	rho <- object$rho
 	S <- as.matrix(object$S)
 	p <- dim(S)[1]
 	n <- dim(X)[1]
@@ -26,6 +27,7 @@ klcv <- function(object, X, scale = 1){
 	if(out.fortran$info != 0) stop("error in dpotrf or dpotri subroutine")
 	ll <- loglik(object, n)
 	klcv.out <- - (ll - 0.5 * scale * out.fortran$gdf) / n
-	out <- list(klcv = klcv.out, loglik = ll, gdf = out.fortran$gdf, scale = scale)
+	out <- list(klcv = klcv.out, rho = rho, loglik = ll, gdf = out.fortran$gdf, scale = scale)
+	class(out) <- "klcv"
 	out
 }

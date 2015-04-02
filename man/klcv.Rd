@@ -1,5 +1,6 @@
 \name{klcv}
 \alias{klcv}
+\alias{print.klcv}
 \title{Cross-Validated Kullback-Leibler Divergence}
 \description{
 Model selection criterion based on the leave-one-out cross-validated Kullback-Leibler divergence.
@@ -13,7 +14,7 @@ klcv(object, X, scale = 1)
   \item{scale}{scalar value used to scale the degrees-of-freedom. See below for more details.}
 }
 \details{
-\code{klcv} function implements the leave-one-out cross-validate Kullback-Leibler divergence criterion proposed in Vujacic et al. (to appear). For \eqn{l_1}-penalized Gaussian Graphical Models this measure of goodness-of-fit has the following form \deqn{klcv(\rho) = -\frac{\ell(\hat K(\rho))}{N} + \frac{\code{scale}}{2N} gdf(\hat K(\rho)),} where \eqn{\hat K(\rho)} is the glasso estimate of the concentration matrix, \eqn{\ell(\hat K(\rho))} is the corresponding value of the log-likelihood function, \code{scale} is a scale factor for the complexity part, i.e., \eqn{gdf(\hat K(\rho))}, which is defined as \deqn{gdf(\hat K(\rho)) = \frac{1}{N-1}\sum_{k=1}^N vec\{(\hat K(\rho)^{-1} - S_k)\circ 1_\rho\}'vec[\hat K(\rho)\{(S-S_k)\circ 1_\rho\}\hat K(\rho)].} In the previous expression \eqn{S} is the empirical variance/covariance matrix, \eqn{S_k = X_k X_k'}, \eqn{1_\rho} is a matrix with entries \eqn{I(\hat k_{ij}(\rho)\ne 0)} and \eqn{\circ} is the Hadamard product operator.
+\code{klcv} function implements the leave-one-out cross-validate Kullback-Leibler divergence criterion proposed in Vujacic et al. (2015). For \eqn{l_1}-penalized Gaussian Graphical Models this measure of goodness-of-fit has the following form \deqn{klcv(\rho) = -\frac{\ell(\hat K(\rho))}{N} + \frac{\code{scale}}{2N} gdf(\hat K(\rho)),} where \eqn{\hat K(\rho)} is the glasso estimate of the concentration matrix, \eqn{\ell(\hat K(\rho))} is the corresponding value of the log-likelihood function, \code{scale} is a scale factor for the complexity part, i.e. \eqn{gdf(\hat K(\rho))}, which is defined as \deqn{gdf(\hat K(\rho)) = \frac{1}{N-1}\sum_{k=1}^N vec\{(\hat K(\rho)^{-1} - S_k)\circ 1_\rho\}'vec[\hat K(\rho)\{(S-S_k)\circ 1_\rho\}\hat K(\rho)].} In the previous expression \eqn{S} is the empirical variance/covariance matrix, \eqn{S_k = X_k X_k'}, \eqn{1_\rho} is a matrix with entries \eqn{I(\hat k_{ij}(\rho)\ne 0)} and \eqn{\circ} is the Hadamard product operator.
 }
 \value{
 	\code{klcv} returns a named list with the following components:
@@ -25,8 +26,8 @@ klcv(object, X, scale = 1)
 \author{Luigi Augugliaro\cr 
 Maintainer: Luigi Augugliaro \email{luigi.augugliaro@unipa.it}}
 \references{
-Vujacic, I., Abbruzzo, A. and Wit, E.C. (to appear) 
-\emph{A computationally fast alternative to cross-validation in penalized Gaussian graphical models}. To appear in J. Stat. Comput. Simul.
+Vujacic, I., Abbruzzo, A. and Wit, E.C. (2015) 
+\emph{A computationally fast alternative to cross-validation in penalized Gaussian graphical models}. J. Stat. Comput. Simul.
 }
 \seealso{
 \code{\link{sglasso}} and \code{\link{loglik}} function.

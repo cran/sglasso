@@ -9,13 +9,13 @@ fglasso(S, model, tp, p, ...)
 }
 \arguments{
 	\item{S}{the empirical variance/covariance matrix;}
-	\item{model}{a list or a matrix used to specify the factorial Gaussian Graphical Model (see Details);}
+	\item{model}{a list or a matrix used to specify the factorial dynamic Gaussian Graphical Model (see Details);}
 	\item{tp}{number of time points;}
 	\item{p}{number of random variables observed for each time point;}
 	\item{...}{further arguments passed to \code{sglasso}.}
 }
 \details{
-The factorial graphical model (Abbruzzo et al., to appear) is a special kind of the Graphical Gaussian Model proposed to study dynamic networks. Let \eqn{X_t = (X_{it},\ldots,X_{it})'}{X_t = (X_{it},...,X_{it})'} be a \eqn{p}{p}-dimensional random variable at time \eqn{t}{t}. Assuming that \eqn{X = (X'_1,\ldots,X'_T)}{X = (X'_1,...,X'_T)'} follows a multivariate normal distribution, the concentration matrix \eqn{K}{K} has the following block structure
+The factorial dynamic Gaussian Graphical Model (Abbruzzo et al., 2015) is a special kind of \emph{RCON(V, E)} model (Højsgaard, et al.,2008) proposed to study dynamic networks. Let \eqn{X_t = (X_{it},\ldots,X_{it})'}{X_t = (X_{it},...,X_{it})'} be a \eqn{p}{p}-dimensional random variable at time \eqn{t}{t}. Assuming that \eqn{X = (X'_1,\ldots,X'_T)}{X = (X'_1,...,X'_T)'} follows a multivariate normal distribution, the concentration matrix \eqn{K}{K} has the following block structure
 \deqn{
 K = \left(
 \begin{array}{cccc}
@@ -58,12 +58,12 @@ Argument \code{model} is used to specify the restrinctions previously describted
 \code{> model.mat[1, ] <- c("c", "ut")}\cr
 \code{> model.mat[2, ] <- c("t", ".")}\cr
 
-In this example we are modelling the diagonal elements of the sub-matrices \eqn{K_{t,t}} with the constant effect while the off-diagonal elements are modelled by the interaction effect. In the same way, the diagonal elements of the sub-matrices \eqn{K_{t,t+1}} are modelled by the time effect while the remaning element are equal to zero. The \code{fglasso} function passes the matrix \code{model.mat} to the internal function \code{fglasso_model2mask}, i.e.,\cr 
+In this example we are modelling the diagonal elements of the sub-matrices \eqn{K_{t,t}} with the constant effect while the off-diagonal elements are modelled by the interaction effect. In the same way, the diagonal elements of the sub-matrices \eqn{K_{t,t+1}} are modelled by the time effect while the remaning elements are equal to zero. The \code{fglasso} function passes the matrix \code{model.mat} to the internal function \code{fglasso_model2mask}, i.e.,\cr 
 
 \code{> mask <- fglasso_model2mask(model.mat, tp = 3, p = 3)}\cr
 \code{> mask}\cr
 
-which returns the mask used in \code{sglasso} to fit the specified factorial Gaussian Graphical Model. The same model can be specified by the following named list\cr
+which returns the mask used in \code{sglasso} to fit the specified factorial dynamic Gaussian Graphical Model. The same model can be specified by the following named list\cr
 
 \code{> model.list <- list(lag0 = c(s = "c", n = "ut"), lag1 = c(s = "t", n = "."))}\cr
 
@@ -75,13 +75,17 @@ See the example below for more details.
 \author{Luigi Augugliaro\cr 
 Maintainer: Luigi Augugliaro \email{luigi.augugliaro@unipa.it}}
 \references{
-Abbruzzo, A. and Wit, E.C. (2014) 
-\emph{Dynamic factorial graphical models for dynamic networks}. To appear in Network Science.
+Abbruzzo, A. and Wit, E.C. (2015) 
+\emph{Dynamic factorial graphical models for dynamic networks}. Network Science, 1--21
 \cr\cr
 
 Abbruzzo, A., Augugliaro, L., Mineo, A.M. and Wit, E.C. (2014) 
 \emph{Cyclic coordinate for penalized Gaussian Graphical Models with symmetry restrictions}. In Proceeding of COMPSTAT 2014 - 21th International Conference on Computational Statistics. Geneva, August 19-24, 2014.
+
+Hojsgaard, S. and Lauritzen, S.L. (2008) 
+\emph{Graphical gaussian models with edge and vertex symmetries}. J. Roy. Statist. Soc. Ser. B., Vol. 70(5), 1005--1027.
 }
+
 \seealso{
 \code{\link{sglasso}} function.
 }

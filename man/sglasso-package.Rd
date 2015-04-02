@@ -5,14 +5,14 @@
 Lasso Method for RCON(V, E) Models
 }
 \description{
-	\emph{RCON(V, E)} models (Hojsgaard, et al.,2008) are a kind of restriction of the Gaussian Graphical Models defined by a set of equality constraints on the entries of the concentration matrix. \code{sglasso} package implements the structured graphical lasso (sglasso) estimator proposed in Abbruzzo et al. (2014) for the weighted l1-penalized \emph{RCON(V, E)} model. Two cyclic coordinate algorithms are implemented to compute the sglasso estimator, i.e., a cyclic coordinate minimization (CCM) algorithm and a cyclic coordinate descent (CCD) algorithm.
+	\emph{RCON(V, E)} models (Hojsgaard, et al.,2008) are a kind of restriction of the Gaussian Graphical Models defined by a set of equality constraints on the entries of the concentration matrix. \code{sglasso} package implements the structured graphical lasso (sglasso) estimator proposed in Abbruzzo et al. (2014) for the weighted l1-penalized \emph{RCON(V, E)} model. Two cyclic coordinate algorithms are implemented to compute the sglasso estimator, i.e. a cyclic coordinate minimization (CCM) and a cyclic coordinate descent (CCD) algorithm.
 }
 \details{
 \tabular{ll}{
 Package: \tab sglasso\cr
 Type: \tab Package\cr
-Version: \tab 1.1-0\cr
-Date: \tab 2014-09-04\cr
+Version: \tab 1.1-1\cr
+Date: \tab 2015-04-02\cr
 License: \tab GPL (>=2)
 }
 }

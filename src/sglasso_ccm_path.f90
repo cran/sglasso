@@ -30,8 +30,8 @@
 !
 !		INPUT/OUTPUT
 !			w = ne-dimensional vector of the weights used to define the l1-norm. If not specified (default in
-!					sglasso.R), in output the estimates of the variance of the elements of the score vector are
-!					returned;
+!					sglasso.R), in output the number of undirected edges in each edge-colour class is returned;
+!					
 !
 !		OUTPUT
 !			grd = (nv + ne, nrho) dimensional matrix used to store the gradient vector; 
@@ -86,20 +86,7 @@ subroutine sglasso_ccm_path(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,Te_
 		ath(i) = (i1 - i0 + 1)/tr_SvTv(i)
 		Svh(Tv_pkg(i0:i1)) = 1/ath(i)
 	end do
-	
-	do i = 1, ne
-		i0 = Te_scn(i)
-		i1 = Te_scn(i + 1) - 1
-		j0 = Te_ptr_scn(i)
-		j1 = Te_ptr_scn(i + 1) - 1
-		h0 = Te_cl_ptr(i)
-		h1 = Te_cl_ptr(i + 1) - 1
-		if(w(i).eq.0.) then
-			call trSTeSTe(nSv,Svh,Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1),Te_ptr(j0:j1), &
-								Te_cl_sz(i),Te_cl(h0:h1),w(i))
-		end if
-	end do
-		
+			
 	max_rho = 0.
 	do i = 1, ne
 		i0 = Te_scn(i)

@@ -13,7 +13,7 @@ loglik <- function(object, size = 2){
 					 }
 					 )
 	out <- Kh(object)
-   out <- unlist(lapply(out, function(x) determinant(x, logarithm = TRUE)$modulus[1]))
+    out <- unlist(lapply(out, function(x) determinant(x, logarithm = TRUE)$modulus[1]))
 	k <- 0.5 * size
 	out <- k * (out - p + rho * l1_th_e)
 	out

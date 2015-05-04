@@ -2,14 +2,14 @@
 \alias{plot.sglasso}
 \title{Plot Method for the Weighted l1-Penalized RCON(V, E) Model}
 \description{
-\code{plot.sglasso} produces two plots to study the sequence of models estimates by \code{sglasso}.
+\code{plot.sglasso} produces two plots to study the sequence of models estimates by \code{sglasso} or \code{fglasso}.
 }
 \usage{
 \method{plot}{sglasso}(x, \dots)
 }
 \arguments{
-	\item{x}{fitted \code{sglasso} object;}
-	\item{\dots}{other parameters to be passed through the plotting functions.}
+	\item{x}{fitted \code{sglasso}/\code{fglasso} object;}
+	\item{\dots}{other parameters to be passed through the plotting function.}
 }
 \details{
 This function produces two different plots. The first one shows the path of the estimated parameters as function of the tuning parameter \eqn{\rho}{rho}. In the same way, the second plot shows the path of the weighted scores as function of \eqn{\rho}{rho}.

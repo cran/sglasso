@@ -1,0 +1,20 @@
+citHeader("To cite package 'sglasso' in publications use:")
+
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "Manual",
+	title = "{sglasso}: Lasso Method for RCON(V,E) Models",
+	author = person("Luigi" ,"Augugliaro"),
+	year = year,
+	note = note,
+	url = "http://CRAN.R-project.org/package=sglasso",
+			
+	textVersion = 
+			paste0("Luigi Augugliaro (", 
+					year, 
+					"). sglasso: Lasso Method for RCON(V,E) Models. ",
+					note, ".", sep = ""))
+
+
+

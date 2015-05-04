@@ -27,7 +27,10 @@ klcv <- function(object, X, scale = 1){
 	if(out.fortran$info != 0) stop("error in dpotrf or dpotri subroutine")
 	ll <- loglik(object, n)
 	klcv.out <- - (ll - 0.5 * scale * out.fortran$gdf) / n
-	out <- list(klcv = klcv.out, rho = rho, loglik = ll, gdf = out.fortran$gdf, scale = scale)
+	pos <- which.min(klcv.out)
+	min.klcv <- klcv.out[pos]
+	rho.opt <- rho[pos]
+	out <- list(klcv = klcv.out, rho = rho, loglik = ll, gdf = out.fortran$gdf, scale = scale, min.klcv = min.klcv, rho.opt = rho.opt, rhoid = pos)
 	class(out) <- "klcv"
 	out
 }

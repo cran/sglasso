@@ -21,6 +21,10 @@ fglasso <- function(S, model, tp, p, ...){
 	stop("dim(S) != dim(mask)")
 	mask <- fglasso_model2mask(model, tp, p)
 	out_fglasso <- sglasso(S = S, mask = mask, ...)
-	out_fglasso$call <- this.call		
+	out_fglasso$call <- this.call
+	out_fglasso$model <- model
+	out_fglasso$p <- p
+	out_fglasso$tp <- tp
+	class(out_fglasso) <- c("fglasso", class(out_fglasso))
 	out_fglasso
 }

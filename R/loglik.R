@@ -1,6 +1,6 @@
-loglik <- function(object, size = 2){
-	if(size <= 0) stop("size must be a positive integer")
-	if(size != ceiling(size)) stop("size must be an integer value")
+loglik <- function(object, N = 2){
+	if(N <= 0) stop("N must be a positive integer")
+	if(N != ceiling(N)) stop("N must be an integer value")
 	p <- dim(object$S)[1]
 	rho <- object$rho
 	nv <- object$nv
@@ -14,7 +14,7 @@ loglik <- function(object, size = 2){
 					 )
 	out <- Kh(object)
     out <- unlist(lapply(out, function(x) determinant(x, logarithm = TRUE)$modulus[1]))
-	k <- 0.5 * size
+	k <- 0.5 * N
 	out <- k * (out - p + rho * l1_th_e)
 	out
 }

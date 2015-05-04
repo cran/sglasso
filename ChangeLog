@@ -1,6 +1,21 @@
+2015-04-25 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.2
+	* argument ‘size’ in logic function is remained as ’N’
+	* fixed a bug in sglasso_ccm_single.f90, sglasso_ccm_path.f90
+	* fixed a bug in sglasso_ccd_single.f90, sglasso_ccd_path.f90
+	* fixed a bug in fglasso_model2mask
+	* defined the internal function ‘zero’ to truncate the estimates to zero
+	* changed default value for ‘tol’. New default value is equal to 1.0e-3
+	* changed convergence criterion
+	* included argument ‘truncate’ in sglasso function. At convergence,
+	  all estimates below this value will be set to zero (default 1.0e-5)
+	* defined class "fglasso"
+	* included functions: gplot, gplot.sglasso, gplot.fglasso
+	* included 'neisseria' data set
+
 2015-04-02 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.1-1
 	* klcv returs an object with S3 class 'klcv'
-	* implemented print method for class 'klcv	'
+	* implemented print method for class 'klcv'
+	* included method function plot.klcv
 
 2015-03-30 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.1-1
 	* fixed a bug in fglasso_model2mask function: 

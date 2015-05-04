@@ -1,9 +1,12 @@
 useDynLib("sglasso")
 
-import(Matrix)
+import(Matrix, igraph)
 exportPattern("^[[:alpha:]]+")
 
 S3method(print, sglasso)
 S3method(summary, sglasso)
 S3method(plot, sglasso)
 S3method(print, klcv)
+S3method(plot, klcv)
+S3method(gplot, sglasso)
+S3method(gplot, fglasso)

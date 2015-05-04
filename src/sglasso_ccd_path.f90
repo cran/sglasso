@@ -9,15 +9,15 @@
 !						Augugliaro et al., (2014) to fit a weighted l1-norm penalized RCON(V, E) model. 
 !
 !	ARGUMENTS: see arguments in sglasso_ccm_path.f90
-subroutine sglasso_ccd_path(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,Te_ptr,ne,Te_scn,Te_ptr_scn,nstep,tol, &
-	rho,nrho,min_rho,grd,th,w,df,n,conv)
+subroutine sglasso_ccd_path(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,Te_ptr,ne,Te_scn,Te_ptr_scn,nstep,trnc,tol, &
+	rho,nrho,min_rho,grd,th,w,n,conv)
 	integer	:: nSv,nTv,Tv_pkg(nTv),Tv_rw(nTv),nv,Tv_ptr(nv+1),nTe,Te(nTe),nTe_ptr,Te_ptr(nTe_ptr),ne, &
-		Te_scn(ne+1),Te_ptr_scn(ne+1),nstep,nrho,df(nrho),n,conv
-	double precision	:: Sv(nSv),tol,rho(nrho),min_rho,grd(nv+ne,nrho),th(nv+ne,nrho),w(ne)
+		Te_scn(ne+1),Te_ptr_scn(ne+1),nstep,nrho,n,conv
+	double precision	:: Sv(nSv),trnc,tol,rho(nrho),min_rho,grd(nv+ne,nrho),th(nv+ne,nrho),w(ne)
 	!internal variables
 	logical	:: A(ne),flg
 	integer	:: p,i,j,h,k,i0,i1,j0,j1,h0,h1,Te_scn_sz(ne), &
-		Te_cl_ptr(ne+1),Te_cl_sz(ne),Te_cl(ne*(Tv_ptr(nv+1)-1)),nr,adf,max_df
+		Te_cl_ptr(ne+1),Te_cl_sz(ne),Te_cl(ne*(Tv_ptr(nv+1)-1)),nr,df,max_df
 	double precision	:: Svh(nSv),tr_SvTv(nv),tr_SvTe(ne),max_rho,Du,oth(nv+ne),ath(nv+ne), &
 		dth,tr_SvhTeSvhTe,tr_SvhTvSvhTv,th_diff,Du_sgn,cf,arho,agrd(nv+ne)
 		
@@ -27,7 +27,7 @@ subroutine sglasso_ccd_path(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,Te_
 	oth = 0.
 	agrd = 0.
 	p = Tv_ptr(nv + 1) - 1
-	adf = nv
+	df = nv
 	max_df = nv + ne
 	
 	k = 0
@@ -65,7 +65,9 @@ subroutine sglasso_ccd_path(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,Te_
 		agrd(nv + i) = Du
 		max_rho = max(max_rho,abs(Du) / w(i))
 	end do
-		
+
+    if(min_rho.gt.max_rho) return
+
 	rho(1) = max_rho
 	cf = dexp((dlog(min_rho) - dlog(max_rho)) / (nrho - 1))
 	do i = 2, nrho
@@ -74,37 +76,36 @@ subroutine sglasso_ccd_path(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,Te_
 	
 	n = 0
 	do nr = 1, nrho
-	
-		arho = rho(nr)
+
+        arho = rho(nr)
 		do i = 1, ne
 			if(.not.A(i)) then
 				if(abs(agrd(nv + i))/w(i).gt.arho) then
 					A(i) = .true.
-					adf = adf + 1
+					df = df + 1
 				end if
 			end if
 		end do
 
 		do
-			n = n + 1
-			if(n.ge.nstep) then
-				if(nr.eq.1) then
-					nrho = nr
-				else 
-					nrho = nr - 1
-				end if
-				conv = 1
-				return
-			end if
-			
 			oth(1:nv) = ath(1:nv)
 			do i = 1, ne
 				if(A(i))	oth(nv + i) = ath(nv + i)
 			end do
-			
-			if(adf.gt.nv) then
+
+			if(df.gt.nv) then
 				do i = 1, ne
 					if(A(i)) then
+                        n = n + 1
+                        if(n.ge.nstep) then
+                            if(nr.eq.1) then
+                                nrho = nr
+                            else
+                                nrho = nr - 1
+                            end if
+                            conv = 1
+                            return
+                        end if
 						i0 = Te_scn(i)
 						i1 = Te_scn(i + 1) - 1
 						j0 = Te_ptr_scn(i)
@@ -116,81 +117,93 @@ subroutine sglasso_ccd_path(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,Te_
 						agrd(nv + i) = Du
 						Du_sgn = dsign(dble(1),Du)
 						Du = Du - arho * Du_sgn * w(i)
-						if(abs(Du).gt.tol) then
-							call trSTeSTe(nSv,Svh,Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1),Te_ptr(j0:j1), &
+                        call trSTeSTe(nSv,Svh,Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1),Te_ptr(j0:j1), &
 								Te_cl_sz(i),Te_cl(h0:h1),tr_SvhTeSvhTe)
-							dth = Du / tr_SvhTeSvhTe
-							if(dsign(dble(1),ath(nv + i) + dth).ne.Du_sgn) then
-								dth = - ath(nv + i)
-								ath(nv + i) = 0.
-								A(i) = .false.
-								adf = adf - 1
-								call updateSvh_e(p,nSv,Svh,dth,Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1), &
-									Te_ptr(j0:j1))
-								exit
-							end if
-							ath(nv + i) = ath(nv + i) + dth
-							call updateSvh_e(p,nSv,Svh,dth,Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1), &
-								Te_ptr(j0:j1))
-						end if
-					end if
-				end do
-			end if
+                        dth = Du / tr_SvhTeSvhTe
+                        if(isnan(dth)) then
+                            conv = 2
+                            return
+                        end if
+                        ath(nv + i) = ath(nv + i) + dth
+                        call updateSvh_e(p,nSv,Svh,dth,Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1),Te_ptr(j0:j1))
+                    end if
+                end do
+            end if
 
 			do i = 1, nv
+                n = n + 1
+                if(n.ge.nstep) then
+                    if(nr.eq.1) then
+                        nrho = nr
+                    else
+                        nrho = nr - 1
+                    end if
+                    conv = 1
+                    return
+                end if
 				i0 = Tv_ptr(i)
 				i1 = Tv_ptr(i + 1) - 1
-				Du = sum(Svh(Tv_pkg(i0:i1))) - tr_SvTv(i)	
+				Du = sum(Svh(Tv_pkg(i0:i1))) - tr_SvTv(i)
 				agrd(i) = Du
-				if(abs(Du).gt.tol) then
-					tr_SvhTvSvhTv = 0.
-					do h = i0 + 1, i1
-						do k = i0, h - 1
-							tr_SvhTvSvhTv = tr_SvhTvSvhTv + Svh(int(Tv_rw(k) + & 
-								0.5 * Tv_rw(h) * (Tv_rw(h) - 1)))**2
-						end do
-					end do
-					tr_SvhTvSvhTv = 2 * tr_SvhTvSvhTv + sum(Svh(Tv_pkg(i0:i1))**2)
-					dth = Du / tr_SvhTvSvhTv
-					ath(i) = ath(i) + dth
-					call updateSvh_v(p,nSv,Svh,dth,Tv_ptr(i+1)-Tv_ptr(i),Tv_pkg(i0:i1),Tv_rw(i0:i1))
-				end if
+                tr_SvhTvSvhTv = 0.
+                do h = i0 + 1, i1
+                    do k = i0, h - 1
+                        tr_SvhTvSvhTv = tr_SvhTvSvhTv + Svh(int(Tv_rw(k) + Tv_rw(h) * (Tv_rw(h) - 1) / 2))**2
+                    end do
+                end do
+                tr_SvhTvSvhTv = 2 * tr_SvhTvSvhTv + sum(Svh(Tv_pkg(i0:i1))**2)
+                dth = Du / tr_SvhTvSvhTv
+                if(isnan(dth)) then
+                    conv = 2
+                    return
+                end if
+                ath(i) = ath(i) + dth
+                call updateSvh_v(p,nSv,Svh,dth,Tv_ptr(i+1)-Tv_ptr(i),Tv_pkg(i0:i1),Tv_rw(i0:i1))
 			end do
 
-			th_diff = sum((ath(1:nv) - oth(1:nv))**2)
-			if(th_diff.lt.tol) then
+			th_diff = sum(abs(ath(1:nv) - oth(1:nv)))
+			if(th_diff/df.lt.tol) then
 				do i = 1, ne
 					if(A(i)) then
-						th_diff = th_diff + (ath(nv + i) - oth(nv + i))**2 
+						th_diff = th_diff + abs(ath(nv + i) - oth(nv + i))
 					end if
 				end do
 			end if
 
-			if(th_diff.lt.tol) then
+			if(th_diff/df.lt.tol) then
 				flg = .true.
-				if(adf.lt.max_df) then
+                do i = 1, ne
+                    if(A(i).and.abs(ath(nv + i)).gt.trnc) then
+                        if((ath(nv + i) * agrd(nv + i)).lt.0.) then
+                            flg = .false.
+                            call updateSvh_e(p,nSv,Svh,-ath(nv + i),Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1),Te_ptr(j0:j1))
+                            ath(nv + i) = 0.
+                            A(i) = .false.
+                            df = df - 1
+                        end if
+                    end if
+                end do
+				if(flg) then
 					do i = 1, ne
 						if(.not.A(i)) then
 							call trSTe(nSv,Svh,Te_scn_sz(i),Te(Te_scn(i):(Te_scn(i + 1) - 1)), &
 								Tv_ptr(nv+1),Te_ptr(Te_ptr_scn(i):(Te_ptr_scn(i + 1) - 1)),Du)
 							Du = Du - tr_SvTe(i)
 							agrd(nv + i) = Du
-							if(abs(Du)/w(i).gt.arho) then
+							if(abs(Du)/w(i) - arho .gt. 0.) then
+                                flg = .false.
 								A(i) = .true.
-								adf = adf + 1
-								flg = .false.
+								df = df + 1
 							end if
 						end if
 					end do
 				end if
 				if(flg) exit
 			end if
-
 		end do
-		
+
 		th(:, nr) = ath
 		grd(:, nr) = agrd
-		df(nr) = adf
 		
 	end do
-end subroutine sglasso_ccd_path	
+end subroutine sglasso_ccd_path

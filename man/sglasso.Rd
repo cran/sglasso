@@ -7,16 +7,17 @@ Fit the weighted l1-penalized \emph{RCON(V, E)} models using a cyclic coordinate
 }
 \usage{
 sglasso(S, mask, w = NULL, min_rho = 1.0e-02, nrho = 50, nstep = 1.0e+05, 
-        algorithm = c("ccd","ccm"), tol = 1.0e-05)
+        algorithm = c("ccd","ccm"), truncate = 1e-05, tol = 1.0e-03)
 }
 \arguments{
 	\item{S}{the empirical variance/covariance matrix;}
-	\item{mask}{a symmetric matrix used to define the structure of the concentration matrix. See the example bellow for more details;}
+	\item{mask}{a symmetric matrix used to specify the equality constraints on the entries of the concentration matrix. See the example bellow for more details;}
 	\item{w}{a vector specifying the weights used to compute the weighted l1-norm of the parameters of the \emph{RCON(V, E)} model;}
-	\item{min_rho}{last value of the sequence of tuning parameters used to compute the sglasso solution path. If the argument \code{nrho = 1}, then \code{min_rho} is the value used to compute the sglasso estimate. Default value is 1.0e-02;}
-	\item{nrho}{number of tuning parameters. Default is 50;}
+	\item{min_rho}{last value of the sequence of tuning parameters used to compute the sglasso solution path. If \code{nrho = 1}, then \code{min_rho} is the value used to compute the sglasso estimate. Default value is 1.0e-02;}
+	\item{nrho}{number of tuning parameters used to compute the sglasso solution path. Default is 50;}
 	\item{nstep}{nonnegative integer used to specify the maximun number of iterations of the two cyclic coordinate algorithms. Default is 1.0e+05;}
 	\item{algorithm}{character by means of to specify the algorithm used to fit the model, i.e., a cyclic coordinate descente (\code{ccd}) algorithm or a cyclic coordinate minimization (\code{ccm}) algorithm. Default is \code{ccd};}
+	\item{truncate}{at convergence all estimates below this value will be set to zero. Default is 1e-05;}
 	\item{tol}{value used for convergence. Default value is 1.0e-05.}
 }
 \details{
@@ -26,7 +27,7 @@ sglasso(S, mask, w = NULL, min_rho = 1.0e-02, nrho = 50, nstep = 1.0e+05,
 	} Denoted with \eqn{\psi = (\eta',\theta')'} the \eqn{(R+S)}-dimensional parameter vector, the concentration matrix can be defined as \deqn{K(\psi) = \sum_{n=1}^R\eta_nD_n + \sum_{m=1}^S\theta_mT_m,}{K(\psi) = sum_{n=1}^R eta_n D_n + sum_{m=1}^S theta_m T_m,} where \eqn{D_n} is a diagonal matrix with entries \eqn{D^n_{ii} = 1} if the index \eqn{i} belongs to the \eqn{n}th vertex colour class and zero otherwise. In the same way, \eqn{T_m} is a symmetrix matrix with entries \eqn{T^m_{ij} = 1} if the pair \eqn{(i,j)} belongs to the \eqn{m}th edge colour class. Using the previous specification of the concentration matrix, the structured graphical lasso (sglasso) estimator (Abbruzzo et al., 2014) is defined as \deqn{\hat\psi = \arg\max_{\psi} \log det K(\psi) - tr\{Sk(\psi)\} - \rho\sum_{m=1}^Sw_m|\theta_m|,}{hat{\psi} = argmax_{\psi} log det K(\psi) - tr{Sk(\psi)} - \rho \sum_{m=1}^S w_m |\theta_m|,} where \eqn{S} is the empirical variance/covariance matrix, \eqn{\rho} is the tuning parameter used to control the ammount of shrinkage and \eqn{w_m} are weights used to define the weighted \eqn{\ell_1}-norm. By default, the \code{sglasso} function sets the weights equal to the cardinality of the edge colour classes.
 }
 \value{
-\code{sglasso} returns an obejct with S3 class \code{"sglasso"}, i.e., a named list containing the following components:
+\code{sglasso} returns an obejct with S3 class \code{"sglasso"}, i.e. a named list containing the following components:
 	\item{call}{the call that produced this object;}
 	\item{nv}{number of vertex colour classes;}
 	\item{ne}{number of edge colour classes;}
@@ -38,24 +39,25 @@ sglasso(S, mask, w = NULL, min_rho = 1.0e-02, nrho = 50, nstep = 1.0e+05,
 	\item{nstep}{nonnegative integer used to specify the maximum number of iterations of the algorithms;}
 	\item{nrho}{number of tuning parameters used to compute the sglasso solution path;}
 	\item{algorithm}{the algorithm used to fit the model;}
+	\item{truncate}{the value used to set to zero the estimated parameters;}
 	\item{tol}{a nonnegative value used to define the convergence of the algorithms;}
 	\item{S}{the empirical variace/covariance matrix used to compute the sglasso solution path;}
-	\item{mask}{the \code{mask} used to define the structure of the concentration matrix;}
+	\item{mask}{the \code{mask} used to define the equality constraints on the entries of the concentration matrix;}
 	\item{n}{number of interations of the algorithm;}
 	\item{conv}{an integer value used to encode the warnings related to the algorihtms. If \code{conv = 0} the convergence has been achieved otherwise the maximum number of iterations has been achieved.}
 }
 \author{Luigi Augugliaro\cr 
 Maintainer: Luigi Augugliaro \email{luigi.augugliaro@unipa.it}}
 \references{
-Abbruzzo, A., Augugliaro, L., Mineo, A.M. and Wit, E.C. (2014) 
-\emph{Cyclic coordinate for penalized Gaussian Graphical Models with symmetry restrictions}. In Proceeding of COMPSTAT 2014 - 21th International Conference on Computational Statistics, Geneva, August 19-24, 2014.
-\cr\cr
+Abbruzzo, A., Augugliaro, L., Mineo, A. M. and Wit, E. C. (2014) 
+Cyclic coordinate for penalized Gaussian Graphical Models with symmetry restrictions. In \emph{Proceeding of COMPSTAT 2014 - 21th International Conference on Computational Statistics}, Geneva, August 19-24, 2014.
+\cr
 
-Hojsgaard, S. and Lauritzen, S.L. (2008) 
-\emph{Graphical gaussian models with edge and vertex symmetries}. J. Roy. Statist. Soc. Ser. B., Vol. 70(5), 1005--1027.
+Hojsgaard, S. and Lauritzen, S. L. (2008)
+Graphical gaussian models with edge and vertex symmetries. \emph{J. Roy. Statist. Soc. Ser. B.}, Vol. \bold{70(5)}, 1005--1027.
 }
 \seealso{
-\code{\link{summary.sglasso}} and \code{\link{plot.sglasso}} methods.
+\code{\link{summary.sglasso}}, \code{\link{plot.sglasso}} \code{\link{gplot.sglasso}} and methods.
 
 The function \code{\link{Kh}} extracts the estimated sparse structured concentration matrices.
 }

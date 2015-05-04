@@ -3,7 +3,7 @@ fglasso_model2mask <- function(fglasso.model, tp, p){
 	s_lbl <- rep("s", length = p)
 	s_u_lbl <- paste(s_lbl, "_", 1:p, sep = "")
 	n_lbl <- rep("n", length = p * (p - 1) / 2)
-	lbl <- outer(1:p, 1:p, function(i,j) paste(i, j, sep = ""))
+	lbl <- outer(1:p, 1:p, function(i,j) paste(i, j, sep = "."))
 	U <- upper.tri(lbl)
 	U <- outer(1:p, 1:p, "<")
 	L <- t(U)

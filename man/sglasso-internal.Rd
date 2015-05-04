@@ -8,6 +8,7 @@
 \alias{mask2Te}
 \alias{theta2Kh}
 \alias{fglasso_model2mask}
+\alias{zero}
 \description{Internal sglasso functions}
 \author{Luigi Augugliaro}
 \details{These are not intended for use by users}

@@ -1,3 +1,6 @@
+2015-06-01 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.2.1
+	* removed compatibility problems in fortran code
+	* fixed a bug in mask2Te.R function
 2015-04-25 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.2
 	* argument ‘size’ in logic function is remained as ’N’
 	* fixed a bug in sglasso_ccm_single.f90, sglasso_ccm_path.f90

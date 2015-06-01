@@ -12,7 +12,7 @@ mask2Te <- function(mask){
 	for(i in 1:ne){
 		mask_lgCMatrix <- drop0(as(mask == ge[i], "sparseMatrix"))
 		Te_list[[i]] <- mask_lgCMatrix@i + 1
-		w[i] <- length(mask_lgCMatrix@i) / 2
+		w[i] <- length(mask_lgCMatrix@i)
 		Te_scn[i + 1] <- Te_scn[i] + length(Te_list[[i]])
 		Te_ptr_list[[i]] <- mask_lgCMatrix@p + 1
 		Te_ptr_scn[i + 1] <- Te_ptr_scn[i] + length(Te_ptr_list[[i]])

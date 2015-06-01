@@ -154,7 +154,7 @@ subroutine sglasso_ccm_path(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,Te_
 							call trSTeSTe(nSv,Svh,Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1),Te_ptr(j0:j1), &
 								Te_cl_sz(i),Te_cl(h0:h1),tr_SvhTeSvhTe)
 							dth = Du / tr_SvhTeSvhTe
-                            if(isnan(dth)) then
+                            if(dth.ne.dth) then
                                 conv = 2
                                 return
                             end if
@@ -190,7 +190,7 @@ subroutine sglasso_ccm_path(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,Te_
 					end do
 					tr_SvhTvSvhTv = 2 * tr_SvhTvSvhTv + sum(Svh(Tv_pkg(i0:i1))**2)
 					dth = Du / tr_SvhTvSvhTv
-                    if(isnan(dth)) then
+                    if(dth.ne.dth) then
                         conv = 2
                         return
                     end if

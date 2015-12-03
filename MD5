@@ -1,6 +1,6 @@
-00fdb9f2cbc53d75c86eae379e1b49fa *ChangeLog
-ae63160f3cfe7bcda249d9241ff684d5 *DESCRIPTION
-adf251b501efe392879de13faacc072f *NAMESPACE
+8bc8cb97533496ea2218d5bbcd35994a *ChangeLog
+bac9c06f3928f1da53f35a338e0dc32f *DESCRIPTION
+98a18adf84fdbfa2374ce5a46d92b83f *NAMESPACE
 fbd8697d305d341b77c3e4a58dfe1c4f *R/Kh.R
 fbdb634148e724a773c1d5fe6187d566 *R/fglasso.R
 1303b6e5cc3f2a781f706b71d2a46241 *R/fglasso_model2mask.R
@@ -10,7 +10,7 @@ fbdb634148e724a773c1d5fe6187d566 *R/fglasso.R
 6610a4f081655f5a9481531467dbea2f *R/klcv.R
 2a4c2852d86811d491abe2a94b1e4ef5 *R/loglik.R
 9295370d0275f1ddbb11faf03e588847 *R/make_action.R
-89bdf8d649fc1bd4bd0b9017532a6631 *R/make_sglasso.R
+aab9427709fb60de9f21fc1d21102807 *R/make_sglasso.R
 2fdbb1facee7b53503660c9bff677bfc *R/mask2Te.R
 27af519785ab197fabe8c8342dd13639 *R/mask2Tv.R
 513bcbf4f5b259b94f853e28396819af *R/plot.klcv.R
@@ -18,8 +18,8 @@ cb199f09626b43b7e2b985337de5fcea *R/plot.sglasso.R
 b7c4cf086eb2063c7952fc5dd350343b *R/print.klcv.R
 ccaf5384c31b58f110f608fa5d40a479 *R/print.sglasso.R
 0675c1f513c80e88da1233035dd92644 *R/setDiff.R
-c4e8b984605462f3e6197a547dfe12bf *R/sglasso.R
-53591994c163b93d7521f48e34e8b06a *R/sglasso.fit.R
+0b84b008498a86c441f7f385de13bc58 *R/sglasso.R
+9d3debd92ad949c41f60d4851b6aa4ab *R/sglasso.fit.R
 61bf73ff7c5122c6530d98a69c869c8d *R/summary.sglasso.R
 d881310ed930e9eb00fc75e77eceaf15 *R/theta2Kh.R
 e6d16a6806d90718c139dd2210d49444 *R/zero.R
@@ -37,12 +37,12 @@ ed7d36188b3618f101e4fdf0da33535d *man/loglik.Rd
 dd6b2e8ddc0dff01f955c69335682f3e *man/plot.sglasso.Rd
 0fd55c6cc57c5b9ab92eddbb22a8a13c *man/sglasso-internal.Rd
 a68a69e3a54b2a40574a0a2de9e7dece *man/sglasso-package.Rd
-81acdaea0d562f1ae0a49ec4b296a606 *man/sglasso.Rd
+f769280f3ee07fa88b75729e2dfaf896 *man/sglasso.Rd
 472f808b33991e1c05a94292046e28f8 *man/summary.sglasso.Rd
 26a806849c075e181394ad7783d46e49 *src/Makevars
 7eb691b4645325606da98976707244e4 *src/gdf_fun.f90
-443d26a4d6cd7b7f8e80773f100e1b42 *src/sglasso_ccd_path.f90
-597624841f6211e252c2633353e685eb *src/sglasso_ccd_single.f90
-2f221046d27592aaa0555c46e8ce60bb *src/sglasso_ccm_path.f90
-bc0f8a6d42d4ac7e13ccc81aee84e7d8 *src/sglasso_ccm_single.f90
+d3b74856e39c503364d98eb76fc85482 *src/sglasso_ccd_path.f90
+464877fa6e9dc9b0624ec84c750821fd *src/sglasso_ccd_single.f90
+b51039bf6603d87dee47f661691e6325 *src/sglasso_ccm_path.f90
+135c35164cb36caa5f6e3462a6648a84 *src/sglasso_ccm_single.f90
 17f256abe6684bc15ab5c588fadb7d75 *src/tools.f90

@@ -1,4 +1,4 @@
-sglasso.fit <- function(Sv, mask, w, nrho, min_rho, nstep, algorithm, truncate, tol){
+sglasso.fit <- function(Sv, mask, w, flg, nrho, min_rho, nstep, algorithm, truncate, tol){
 	out_mask2Tv <- mask2Tv(mask)
 	Tv_pkg <- out_mask2Tv$Tv_pkg
 	Tv_rw <- out_mask2Tv$Tv_rw
@@ -20,6 +20,11 @@ sglasso.fit <- function(Sv, mask, w, nrho, min_rho, nstep, algorithm, truncate, 
 	else{
 		if(any(w <= 0)) stop("weights must be non-negative values")
 		if(length(w) != ne) stop("length of 'w' is not equal to 'ne'")
+	}
+	if(is.null(flg)) flg <- rep(1, ne)
+	else{
+		if(length(flg) != ne) stop("length of 'flg' is not equal to 'ne'")
+		if(!is.logical(flg)) stop("flg is not a logical vector")
 	}
 	storage.mode(nSv) <- "integer"
 	storage.mode(Sv) <- "double"
@@ -46,6 +51,7 @@ sglasso.fit <- function(Sv, mask, w, nrho, min_rho, nstep, algorithm, truncate, 
 	th <- matrix(0, nv + ne, nrho, dimnames = list(c(nmv, nme)))
 	storage.mode(th) <- "double"
 	storage.mode(w) <- "double"
+	storage.mode(flg) <- "integer"
 	n <- integer(1)
 	conv <- integer(1)
 	if(nrho > 1){
@@ -53,24 +59,24 @@ sglasso.fit <- function(Sv, mask, w, nrho, min_rho, nstep, algorithm, truncate, 
 			fit = .Fortran("sglasso_ccd_path", nSv = nSv, Sv = Sv, nTv = nTv, Tv_pkg = Tv_pkg, Tv_rw = Tv_rw, nv = nv, 
 						   Tv_ptr = Tv_ptr, nTe = nTe, Te = Te, nTe_ptr = nTe_ptr, Te_ptr = Te_ptr,ne = ne, 
 						   Te_scn = Te_scn, Te_ptr_scn = Te_ptr_scn, nstep = nstep, trnc = truncate, tol = tol, rho = rho,
-						   nrho = nrho, min_rho = min_rho, grd = grd, th = th, w = w, n = n, conv = conv)
+						   nrho = nrho, min_rho = min_rho, grd = grd, th = th, w = w, pnl_flg = flg, n = n, conv = conv)
 		} else {
 			fit = .Fortran("sglasso_ccm_path", nSv = nSv, Sv = Sv, nTv = nTv, Tv_pkg = Tv_pkg, Tv_rw = Tv_rw, nv = nv, 
 						   v_ptr = Tv_ptr, nTe = nTe, Te = Te, nTe_ptr = nTe_ptr, Te_ptr = Te_ptr,ne = ne, 
 						   Te_scn = Te_scn, Te_ptr_scn = Te_ptr_scn, nstep = nstep, trnc = truncate, tol = tol, rho = rho, 
-						   nrho = nrho, min_rho = min_rho, grd = grd, th = th, w = w, n = n, conv = conv)
+						   nrho = nrho, min_rho = min_rho, grd = grd, th = th, w = w, pnl_flg = flg, n = n, conv = conv)
 		}
 	} else {
 		if(algorithm == "ccd"){
 			fit = .Fortran("sglasso_ccd_single", nSv = nSv, Sv = Sv, nTv = nTv, Tv_pkg = Tv_pkg, Tv_rw = Tv_rw, nv = nv, 
 						   Tv_ptr = Tv_ptr, nTe = nTe, Te = Te, nTe_ptr = nTe_ptr, Te_ptr = Te_ptr,ne = ne, 
 						   Te_scn = Te_scn, Te_ptr_scn = Te_ptr_scn, nstep = nstep, trnc = truncate, tol = tol, rho = min_rho,
-						   grd = grd, th = th, w = w, n = n, conv = conv)
+						   grd = grd, th = th, w = w, pnl_flg = flg, n = n, conv = conv)
 		} else {
 			fit = .Fortran("sglasso_ccm_single", nSv = nSv, Sv = Sv, nTv = nTv, Tv_pkg = Tv_pkg, Tv_rw = Tv_rw, nv = nv, 
 						   Tv_ptr = Tv_ptr, nTe = nTe, Te = Te, nTe_ptr = nTe_ptr, Te_ptr = Te_ptr,ne = ne, 
 						   Te_scn = Te_scn, Te_ptr_scn = Te_ptr_scn, nstep = nstep, trnc = truncate, tol = tol, rho = min_rho,
-						   grd = grd, th = th, w = w, n = n, conv = conv)			
+						   grd = grd, th = th, w = w, pnl_flg = flg, n = n, conv = conv)			
 		}
 	}
 	if(fit$conv!=0) warning("sglasso does not converge with code ", fit$conv, "\n")

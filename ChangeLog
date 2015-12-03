@@ -1,3 +1,5 @@
+2015-12-01 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.2.2
+	* argument 'flg' is included in function sglasso
 2015-06-01 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.2.1
 	* removed compatibility problems in fortran code
 	* fixed a bug in mask2Te.R function

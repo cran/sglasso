@@ -2,17 +2,17 @@
 !						SUBROUTINE USED TO COMPUTE THE SGLASSO ESTIMATOR BY THE CCM ALGORITHM (SINGLE VERSION)
 !
 !	AUTHOR: Luigi Augugliaro
-!	VERSION: 1.0-0
-!	DATA: 23/04/2014
+!	VERSION: 1.2-2
+!	DATA: 01/12/2015
 !
 !	DESCRIPTION: the subroutine sglasso_ccm_single implements the cyclic coordinate minimization algorithm proposed
 !						Augugliaro et al., (2014) to fit a weighted l1-norm penalized RCON(V, E) model. 
 !
 !	ARGUMENTS: see arguments in sglasso_ccm_path.f90
 subroutine sglasso_ccm_single(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,Te_ptr,ne,Te_scn,Te_ptr_scn, &
-	nstep,trnc,tol,rho,grd,th,w,n,conv)
+	nstep,trnc,tol,rho,grd,th,w,pnl_flg,n,conv)
 	integer	:: nSv,nTv,Tv_pkg(nTv),Tv_rw(nTv),nv,Tv_ptr(nv+1),nTe, Te(nTe),nTe_ptr,Te_ptr(nTe_ptr),ne, &
-		Te_scn(ne+1),Te_ptr_scn(ne+1),nstep,n,conv
+		Te_scn(ne+1),Te_ptr_scn(ne+1),nstep,pnl_flg(ne),n,conv
 	double precision	:: grd(nv+ne),Sv(nSv),trnc,tol,rho,th(nv+ne),w(ne)
 	!internal variables
 	logical	:: A(ne),flg
@@ -21,10 +21,16 @@ subroutine sglasso_ccm_single(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,T
 	double precision	:: Svh(nSv),tr_SvTv(nv),tr_SvTe(ne),max_rho,Du,oth(nv+ne), &
 		dth,tr_SvhTeSvhTe,tr_SvhTvSvhTv,th_diff,Du_sgn
 	
-	A = .false.
+	do i = 1, ne
+		if (pnl_flg(i).eq.0) then
+			A(i) = .true.
+		else 
+			A(i) = .false.
+		end if
+   end do
 	Svh = 0.
 	oth = 0.
-	df = nv
+	df = nv + ne - sum(pnl_flg)
 	max_df = nv + ne
 	p = Tv_ptr(nv + 1) - 1
 	
@@ -61,10 +67,12 @@ subroutine sglasso_ccm_single(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,T
 		call trSTe(nSv,Sv,Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1),Te_ptr(j0:j1),tr_SvTe(i))
 		Du = - tr_SvTe(i)
 		grd(nv + i) = Du
-		max_rho = max(max_rho,abs(Du) / w(i))
-		if(abs(Du) / w(i).ge.rho) then
-			A(i) = .true.
-			df = df + 1
+		if(pnl_flg(i).eq.1) then
+			max_rho = max(max_rho,abs(Du)/w(i))
+			if(abs(Du)/w(i).ge.rho) then
+				A(i) = .true.
+				df = df + 1
+			end if
 		end if
 	end do
 	
@@ -95,16 +103,18 @@ subroutine sglasso_ccm_single(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,T
 						call trSTe(nSv,Svh,Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1),Te_ptr(j0:j1),Du)
 						Du = Du - tr_SvTe(i)
 						grd(nv + i) = Du
-						Du_sgn = dsign(dble(1),Du)
-						Du = Du - rho * Du_sgn * w(i)
-                        if(abs(Du).le.tol) exit
+						if(pnl_flg(i).eq.1) then
+							Du_sgn = dsign(dble(1),Du)
+							Du = Du - rho * Du_sgn * w(i)
+						end if
+                  if(abs(Du).le.tol) exit
 						call trSTeSTe(nSv,Svh,Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1),Te_ptr(j0:j1), &
 							Te_cl_sz(i),Te_cl(h0:h1),tr_SvhTeSvhTe)
 						dth = Du / tr_SvhTeSvhTe
-                        if(dth.ne.dth) then
-                            conv = 2
-                            return
-                        end if
+                  if(dth.ne.dth) then
+                  	conv = 2
+                     return
+                  end if
 						th(nv + i) = th(nv + i) + dth
 						call updateSvh_e(p,nSv,Svh,dth,Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1),Te_ptr(j0:j1))
 					end do
@@ -153,7 +163,7 @@ subroutine sglasso_ccm_single(nSv,Sv,nTv,Tv_pkg,Tv_rw,nv,Tv_ptr,nTe,Te,nTe_ptr,T
 		if(th_diff/df.lt.tol) then
 			flg = .true.
             do i = 1, ne
-                if(A(i).and.abs(th(nv + i)).gt.trnc) then
+                if(A(i).and.abs(th(nv + i)).gt.trnc.and.pnl_flg(i).eq.1) then
                     if((th(nv + i) * grd(nv + i)).lt.0.) then
                         flg = .false.
                         call updateSvh_e(p,nSv,Svh,-th(nv + i),Te_scn_sz(i),Te(i0:i1),Tv_ptr(nv+1),Te_ptr(j0:j1))

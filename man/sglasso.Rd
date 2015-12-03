@@ -6,13 +6,15 @@
 Fit the weighted l1-penalized \emph{RCON(V, E)} models using a cyclic coordinate algorithm.
 }
 \usage{
-sglasso(S, mask, w = NULL, min_rho = 1.0e-02, nrho = 50, nstep = 1.0e+05, 
-        algorithm = c("ccd","ccm"), truncate = 1e-05, tol = 1.0e-03)
+sglasso(S, mask, w = NULL, flg = NULL, min_rho = 1.0e-02, nrho = 50,  
+        nstep = 1.0e+05, algorithm = c("ccd","ccm"), truncate = 1e-05, 
+        tol = 1.0e-03)
 }
 \arguments{
 	\item{S}{the empirical variance/covariance matrix;}
 	\item{mask}{a symmetric matrix used to specify the equality constraints on the entries of the concentration matrix. See the example bellow for more details;}
 	\item{w}{a vector specifying the weights used to compute the weighted l1-norm of the parameters of the \emph{RCON(V, E)} model;}
+	\item{flg}{a logical vector used to specify if a parameter is penalized, i.e., if \code{flg[i] = TRUE} then the i-th parameter is penalized, otherwise (\code{flg[i] = FALSE}) the maximum likelihood estimate is computed;}
 	\item{min_rho}{last value of the sequence of tuning parameters used to compute the sglasso solution path. If \code{nrho = 1}, then \code{min_rho} is the value used to compute the sglasso estimate. Default value is 1.0e-02;}
 	\item{nrho}{number of tuning parameters used to compute the sglasso solution path. Default is 50;}
 	\item{nstep}{nonnegative integer used to specify the maximun number of iterations of the two cyclic coordinate algorithms. Default is 1.0e+05;}

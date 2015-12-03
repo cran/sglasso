@@ -11,10 +11,11 @@ make_sglasso <- function(object, call, algorithm, S, mask){
 	}
     theta <- apply(theta, 2, function(x) zero(x, truncate = object$trnc))
     df <- apply(theta, 2, function(x) sum(abs(x) > 1.0e-13))
-	w <- object$w	
+	w <- object$w
+	flg <- as.logical(object$pnl_flg)
 	nv <- object$nv
 	ne <- object$ne
-	obj <- list(call = call, nv = nv, ne = ne, theta = theta, w = w, df = df, rho = rho, grd = grd, 
+	obj <- list(call = call, nv = nv, ne = ne, theta = theta, w = w, flg = flg, df = df, rho = rho, grd = grd, 
 				nstep = object$nstep, nrho = nrho, algorithm = algorithm, truncate = object$trnc, tol = object$tol, S = S,
 				mask = mask, n = object$n, conv = object$conv)
 	class(obj) <- "sglasso"

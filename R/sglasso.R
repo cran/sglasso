@@ -1,4 +1,4 @@
-sglasso <- function(S, mask, w = NULL, min_rho = 1.0e-02, nrho = 50, nstep = 1.0e+05, algorithm = c("ccd","ccm"), truncate = 1.0e-5, tol = 1.0e-03){
+		sglasso <- function(S, mask, w = NULL, flg = NULL, min_rho = 1.0e-02, nrho = 50, nstep = 1.0e+05, algorithm = c("ccd","ccm"), truncate = 1.0e-5, tol = 1.0e-03){
 	this.call <- match.call()
 	if(class(S) == "matrix") S <- as(S, "dspMatrix")
 	if(is.null(dimnames(S)[[1]])) dimnames(S)[[1]] <- paste("X",1:dim(S)[1],sep="")
@@ -24,7 +24,7 @@ sglasso <- function(S, mask, w = NULL, min_rho = 1.0e-02, nrho = 50, nstep = 1.0
     stop("truncate can not be a negative value. See the documentation for more details")
 	if(tol < 0) 
 	stop("tol can not be a negative value. See the documentation for more details")
-	out.fit <- sglasso.fit(Sv = S@x, mask = mask, w = w, nrho = nrho, min_rho = min_rho, nstep = nstep, algorithm = algo, truncate = truncate, tol = tol)
+	out.fit <- sglasso.fit(Sv = S@x, mask = mask, w = w, flg = flg, nrho = nrho, min_rho = min_rho, nstep = nstep, algorithm = algo, truncate = truncate, tol = tol)
     out.fit <- make_sglasso(object = out.fit, call = this.call, algo, S = S, mask = mask)
 	out.fit
 }

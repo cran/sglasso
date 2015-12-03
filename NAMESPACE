@@ -1,6 +1,10 @@
 useDynLib("sglasso")
 
 import(Matrix, igraph)
+importFrom("grDevices", "dev.interactive")
+importFrom("graphics", "abline", "matplot", "par", "plot", "text")
+importFrom("methods", "as", "new")
+
 exportPattern("^[[:alpha:]]+")
 
 S3method(print, sglasso)

@@ -23,7 +23,7 @@ klcv <- function(object, X, scale = 1){
 	storage.mode(K) <- "double"
 	gdf <- double(nrho)
 	info <- integer(1)
-	out.fortran <- .Fortran("gdf_fun", n = n, p = p, X = X, S = S, nrho = nrho, Kh = K, gdf = gdf, info = info)
+	out.fortran <- .Fortran(C_gdf_fun, n = n, p = p, X = X, S = S, nrho = nrho, Kh = K, gdf = gdf, info = info)
 	if(out.fortran$info != 0) stop("error in dpotrf or dpotri subroutine")
 	ll <- loglik(object, n)
 	klcv.out <- - (ll - 0.5 * scale * out.fortran$gdf) / n

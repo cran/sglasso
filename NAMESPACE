@@ -1,11 +1,13 @@
-useDynLib("sglasso")
+useDynLib("sglasso", .registration = TRUE, .fixes = "C_")
 
 import(Matrix, igraph)
 importFrom("grDevices", "dev.interactive")
 importFrom("graphics", "abline", "matplot", "par", "plot", "text")
 importFrom("methods", "as", "new")
 
-exportPattern("^[[:alpha:]]+")
+export(Kh, gplot.fglasso, make_action, plot.klcv, setDiff, theta2Kh, fglasso,
+gplot.sglasso, make_sglasso, plot.sglasso, sglasso, zero, fglasso_model2mask, klcv,
+mask2Te, print.klcv, sglasso.fit, gplot, loglik, mask2Tv, print.sglasso, summary.sglasso)
 
 S3method(print, sglasso)
 S3method(summary, sglasso)

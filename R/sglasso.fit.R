@@ -56,24 +56,24 @@ sglasso.fit <- function(Sv, mask, w, flg, nrho, min_rho, nstep, algorithm, trunc
 	conv <- integer(1)
 	if(nrho > 1){
 		if(algorithm == "ccd"){
-			fit = .Fortran("sglasso_ccd_path", nSv = nSv, Sv = Sv, nTv = nTv, Tv_pkg = Tv_pkg, Tv_rw = Tv_rw, nv = nv, 
+			fit = .Fortran(C_sglasso_ccd_path, nSv = nSv, Sv = Sv, nTv = nTv, Tv_pkg = Tv_pkg, Tv_rw = Tv_rw, nv = nv,
 						   Tv_ptr = Tv_ptr, nTe = nTe, Te = Te, nTe_ptr = nTe_ptr, Te_ptr = Te_ptr,ne = ne, 
 						   Te_scn = Te_scn, Te_ptr_scn = Te_ptr_scn, nstep = nstep, trnc = truncate, tol = tol, rho = rho,
 						   nrho = nrho, min_rho = min_rho, grd = grd, th = th, w = w, pnl_flg = flg, n = n, conv = conv)
 		} else {
-			fit = .Fortran("sglasso_ccm_path", nSv = nSv, Sv = Sv, nTv = nTv, Tv_pkg = Tv_pkg, Tv_rw = Tv_rw, nv = nv, 
+			fit = .Fortran(C_sglasso_ccm_path, nSv = nSv, Sv = Sv, nTv = nTv, Tv_pkg = Tv_pkg, Tv_rw = Tv_rw, nv = nv,
 						   v_ptr = Tv_ptr, nTe = nTe, Te = Te, nTe_ptr = nTe_ptr, Te_ptr = Te_ptr,ne = ne, 
 						   Te_scn = Te_scn, Te_ptr_scn = Te_ptr_scn, nstep = nstep, trnc = truncate, tol = tol, rho = rho, 
 						   nrho = nrho, min_rho = min_rho, grd = grd, th = th, w = w, pnl_flg = flg, n = n, conv = conv)
 		}
 	} else {
 		if(algorithm == "ccd"){
-			fit = .Fortran("sglasso_ccd_single", nSv = nSv, Sv = Sv, nTv = nTv, Tv_pkg = Tv_pkg, Tv_rw = Tv_rw, nv = nv, 
+			fit = .Fortran(C_sglasso_ccd_single, nSv = nSv, Sv = Sv, nTv = nTv, Tv_pkg = Tv_pkg, Tv_rw = Tv_rw, nv = nv,
 						   Tv_ptr = Tv_ptr, nTe = nTe, Te = Te, nTe_ptr = nTe_ptr, Te_ptr = Te_ptr,ne = ne, 
 						   Te_scn = Te_scn, Te_ptr_scn = Te_ptr_scn, nstep = nstep, trnc = truncate, tol = tol, rho = min_rho,
 						   grd = grd, th = th, w = w, pnl_flg = flg, n = n, conv = conv)
 		} else {
-			fit = .Fortran("sglasso_ccm_single", nSv = nSv, Sv = Sv, nTv = nTv, Tv_pkg = Tv_pkg, Tv_rw = Tv_rw, nv = nv, 
+			fit = .Fortran(C_sglasso_ccm_single, nSv = nSv, Sv = Sv, nTv = nTv, Tv_pkg = Tv_pkg, Tv_rw = Tv_rw, nv = nv,
 						   Tv_ptr = Tv_ptr, nTe = nTe, Te = Te, nTe_ptr = nTe_ptr, Te_ptr = Te_ptr,ne = ne, 
 						   Te_scn = Te_scn, Te_ptr_scn = Te_ptr_scn, nstep = nstep, trnc = truncate, tol = tol, rho = min_rho,
 						   grd = grd, th = th, w = w, pnl_flg = flg, n = n, conv = conv)			

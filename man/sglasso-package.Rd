@@ -11,8 +11,8 @@ Lasso Method for RCON(V, E) Models
 \tabular{ll}{
 Package: \tab sglasso\cr
 Type: \tab Package\cr
-Version: \tab 1.2.3\cr
-Date: \tab 2018-05-26\cr
+Version: \tab 1.2.4\cr
+Date: \tab 2019-12-05\cr
 License: \tab GPL (>=2)
 }
 }

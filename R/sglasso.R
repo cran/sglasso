@@ -1,6 +1,6 @@
-		sglasso <- function(S, mask, w = NULL, flg = NULL, min_rho = 1.0e-02, nrho = 50, nstep = 1.0e+05, algorithm = c("ccd","ccm"), truncate = 1.0e-5, tol = 1.0e-03){
+sglasso <- function(S, mask, w = NULL, flg = NULL, min_rho = 1.0e-02, nrho = 50, nstep = 1.0e+05, algorithm = c("ccd","ccm"), truncate = 1.0e-5, tol = 1.0e-03){
 	this.call <- match.call()
-	if(class(S) == "matrix") S <- as(S, "dspMatrix")
+	if(class(S)[1L] == "matrix") S <- as(S, "dspMatrix")
 	if(is.null(dimnames(S)[[1]])) dimnames(S)[[1]] <- paste("X",1:dim(S)[1],sep="")
 	if(is.null(dimnames(S)[[2]])) dimnames(S)[[2]] <- dimnames(S)[[1]]
 	if(missing(mask)) 

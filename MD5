@@ -1,8 +1,8 @@
-664f27008bdc14cac0f7a1c9255b51a7 *ChangeLog
-0bf24a6d0b8a72a89474bba6eaabffe1 *DESCRIPTION
+5ee88ecdc5d54555744c598c7a681148 *ChangeLog
+74d94f296dc44fa6aff6c06849a1aea9 *DESCRIPTION
 bc06c950da728f05d47f1db8da163577 *NAMESPACE
 fbd8697d305d341b77c3e4a58dfe1c4f *R/Kh.R
-fbdb634148e724a773c1d5fe6187d566 *R/fglasso.R
+18e4c0e2ca2bf696eedf568d921b1bba *R/fglasso.R
 1303b6e5cc3f2a781f706b71d2a46241 *R/fglasso_model2mask.R
 3cd7cae462114739c5fa41d20ee21b57 *R/gplot.R
 54d72874116613484824f9966e3f6cd7 *R/gplot.fglasso.R
@@ -18,7 +18,7 @@ cb199f09626b43b7e2b985337de5fcea *R/plot.sglasso.R
 b7c4cf086eb2063c7952fc5dd350343b *R/print.klcv.R
 ccaf5384c31b58f110f608fa5d40a479 *R/print.sglasso.R
 0675c1f513c80e88da1233035dd92644 *R/setDiff.R
-0b84b008498a86c441f7f385de13bc58 *R/sglasso.R
+ef64704b6953557714cfa4cbf256edb4 *R/sglasso.R
 bddfa2acbe30194d0837e59f811dec35 *R/sglasso.fit.R
 61bf73ff7c5122c6530d98a69c869c8d *R/summary.sglasso.R
 d881310ed930e9eb00fc75e77eceaf15 *R/theta2Kh.R
@@ -36,7 +36,7 @@ ed7d36188b3618f101e4fdf0da33535d *man/loglik.Rd
 58e83b31c766cb13cd60511e4eaa058b *man/plot.klcv.Rd
 dd6b2e8ddc0dff01f955c69335682f3e *man/plot.sglasso.Rd
 0fd55c6cc57c5b9ab92eddbb22a8a13c *man/sglasso-internal.Rd
-eb32358f0c40f1218c8a27efbd0b8bad *man/sglasso-package.Rd
+91332e3d5abd879035e67c7b9f269ed1 *man/sglasso-package.Rd
 f769280f3ee07fa88b75729e2dfaf896 *man/sglasso.Rd
 472f808b33991e1c05a94292046e28f8 *man/summary.sglasso.Rd
 26a806849c075e181394ad7783d46e49 *src/Makevars

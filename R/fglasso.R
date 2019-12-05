@@ -1,6 +1,6 @@
 fglasso <- function(S, model, tp, p, ...){
 	this.call <- match.call()
-	if(!is.element(class(model), c("list", "matrix")))
+	if(!is.element(class(model)[1L], c("list", "matrix")))
 	stop("model must be a list or a matrix")
 	if(is.list(model)){
 		check <- unlist(lapply(model, function(x) length(x) != 2))

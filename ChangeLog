@@ -1,3 +1,5 @@
+2019-12-05 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.2.4
+    * fixed bug related to class(matrix(...))
 2018-05-26 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.2.3
 	* registered native routines and disabled symbol search
 2015-12-01 Luigi Augugliaro <luigi.augugliaro@unipa.it> version 1.2.2

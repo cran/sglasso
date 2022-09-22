@@ -1,5 +1,5 @@
 setDiff <- function(new, old){
-	if(setequal(new, old)){
+	if (setequal(new, old)){
 		D <- ""
 	} else {
 		new_old <- union(new, old)

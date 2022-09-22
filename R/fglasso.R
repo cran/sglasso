@@ -1,24 +1,26 @@
 fglasso <- function(S, model, tp, p, ...){
 	this.call <- match.call()
-	if(!is.element(class(model)[1L], c("list", "matrix")))
-	stop("model must be a list or a matrix")
-	if(is.list(model)){
+	if (!is.element(class(model)[1L], c("list", "matrix")))
+      stop("model must be a list or a matrix")
+	if (is.list(model)){
 		check <- unlist(lapply(model, function(x) length(x) != 2))
-		if(any(check))	stop("wrong model specification")
+		if (any(check))
+         stop("wrong model specification")
 		check <- unlist(lapply(model, function(x) !is.element(x, c("c", "u", "t", "ut", "."))))
-		if(any(check))	stop("wrong model specification")
+		if (any(check))
+         stop("wrong model specification")
 		model <- matrix(unlist(model), length(model), 2, byrow = TRUE)
 	}
-	if(is.matrix(model)){
-		if(dim(model)[1] > tp)
-		stop("dim(model)[1] > tp")
-		if(dim(model)[2] != 2)
-		stop("dim(model)[2] != 2")
+	if (is.matrix(model)){
+		if (dim(model)[1L] > tp)
+         stop("dim(model)[1] > tp")
+		if (dim(model)[2L] != 2L)
+         stop("dim(model)[2] != 2")
 	}
-	if(model[1, 1] == ".")
-	stop("model[1, 1] is equal to zero")
-	if(dim(S)[1] != tp * p | dim(S)[2] != tp * p)
-	stop("dim(S) != dim(mask)")
+	if (model[1L, 1L] == ".")
+      stop("model[1, 1] is equal to zero")
+	if (dim(S)[1L] != tp * p | dim(S)[2L] != tp * p)
+      stop("dim(S) != dim(mask)")
 	mask <- fglasso_model2mask(model, tp, p)
 	out_fglasso <- sglasso(S = S, mask = mask, ...)
 	out_fglasso$call <- this.call

@@ -1,5 +1,5 @@
-091a9cec9c7888c922eeed80f43a5418 *ChangeLog
-c95c3faa06f4f08313edfa877270c1b2 *DESCRIPTION
+cc33ff5efecade85298ecb1381303fed *ChangeLog
+05a22d5bb7b4631d69940d5377c8aadd *DESCRIPTION
 bc06c950da728f05d47f1db8da163577 *NAMESPACE
 fbd8697d305d341b77c3e4a58dfe1c4f *R/Kh.R
 16c1cf68ce38fb51f6740258bd9b39a2 *R/fglasso.R
@@ -36,7 +36,7 @@ ed7d36188b3618f101e4fdf0da33535d *man/loglik.Rd
 58e83b31c766cb13cd60511e4eaa058b *man/plot.klcv.Rd
 dd6b2e8ddc0dff01f955c69335682f3e *man/plot.sglasso.Rd
 0fd55c6cc57c5b9ab92eddbb22a8a13c *man/sglasso-internal.Rd
-d5109f0cc8c838f9a0f9f2fc0f75427e *man/sglasso-package.Rd
+26e45bc5415b92167d80cf1f0fe715b1 *man/sglasso-package.Rd
 f769280f3ee07fa88b75729e2dfaf896 *man/sglasso.Rd
 472f808b33991e1c05a94292046e28f8 *man/summary.sglasso.Rd
 26a806849c075e181394ad7783d46e49 *src/Makevars
